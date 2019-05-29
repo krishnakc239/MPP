@@ -1,0 +1,25 @@
+import java.util.*;
+
+public class StudentSectionFactory {
+	static List<TranscriptEntry> entryList = new ArrayList<TranscriptEntry>();
+
+	public static Section createSection(int secNum, String courseName) {
+		if(courseName == null) {
+			throw new IllegalArgumentException("Section can not be null");
+		}
+		Section section = new Section(secNum, courseName);
+		return section;
+	}
+	public static Student createStudent( String name) {
+		if(name == null) 
+			throw new IllegalArgumentException("Student name cannot be null");
+		Student student = new Student(name);
+		return student;
+	}
+	
+	public static void newTranscriptEntry(Student s, Section sect, String grade) {
+		entryList.add(new TranscriptEntry(s,sect,grade));	
+	}
+
+
+}

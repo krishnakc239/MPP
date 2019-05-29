@@ -1,0 +1,13 @@
+package Q3_B;
+
+public class Circle{
+	public Cylinder cylinder;
+	Circle(double radius) {
+		cylinder = new C
+	}
+
+	public double computeArea() {
+		double rad = super.getRadius();
+		return Math.PI * rad * rad;
+	}
+}

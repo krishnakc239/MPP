@@ -1,0 +1,17 @@
+
+
+import java.util.*;
+
+public class Student {
+	String name;
+	List<TranscriptEntry> grades;
+	
+	Student (String name){
+		this.name = name;
+	}
+	public Transcript getTranscript() {
+		return new Transcript(grades, this);
+		
+	}
+	
+}

@@ -1,0 +1,13 @@
+package Q3_B;
+
+public class Circle extends Cylinder{
+	
+	Circle(double height, double radius) {
+		super(height, radius);
+	}
+
+	public double computeArea() {
+		double rad = super.getRadius();
+		return Math.PI * rad * rad;
+	}
+}

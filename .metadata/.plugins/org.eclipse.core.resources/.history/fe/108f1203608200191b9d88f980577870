@@ -1,0 +1,13 @@
+package lab3;
+
+public class Circle extends Cylinder{
+	
+	Circle() {
+		
+	}
+
+	public double computeArea() {
+		double rad = super.getRadius();
+		return Math.PI * rad * rad;
+	}
+}
