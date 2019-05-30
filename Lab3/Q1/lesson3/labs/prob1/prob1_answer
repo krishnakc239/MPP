@@ -1,0 +1,2 @@
+A person is not an instance of PersonWithJob, so they are not equals.
+But a personWithJob is an instance of Person, so they are equals.
