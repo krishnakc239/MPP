@@ -2,7 +2,7 @@ package lesson4.labs.probC;
 
 public final class PayCheck {
 	double grossPay;
-	
+
 	//All taxes in %
 	double fica = 23;
 	double state = 5;
