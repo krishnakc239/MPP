@@ -1,11 +1,11 @@
-package lesson5.labs.prob4.extpackage;
+package prob4.extpackage;
 
 import java.time.LocalDate;
 
-import lesson5.labs.prob4.CustOrderFactory;
-import lesson5.labs.prob4.CustOrderFactory.OrderImpl;
-import lesson5.labs.prob4.Customer;
-import lesson5.labs.prob4.Order;
+import prob4.CustOrderFactory;
+import prob4.CustOrderFactory.OrderImpl;
+import prob4.Customer;
+import prob4.Order;
 
 public class Main {
 	public static void main(String[] args) {

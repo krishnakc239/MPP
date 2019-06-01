@@ -1,4 +1,4 @@
-package lesson5.labs.prob1;
+package prob1;
 
 public class Quack implements QuackBehavior{
 

@@ -1,4 +1,4 @@
-package lesson5.labs.prob4;
+package prob4;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,3 +1,4 @@
+package prob2;
 
 public final class Circle implements Figure {
 	private final double radius;

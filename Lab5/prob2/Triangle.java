@@ -1,3 +1,4 @@
+package prob2;
 
 public final class Triangle implements Figure{
 	private final double base;

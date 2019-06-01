@@ -1,3 +1,4 @@
+package prob2;
 
 public final class Rectangle implements Figure {
 	private final double width;
