@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2bd32f78-4239-4d19-b77a-caee5d17d9fc" name="Default" comment="" />
+    <list default="true" id="2bd32f78-4239-4d19-b77a-caee5d17d9fc" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/Lab5/prob2/src/Circle.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob2/src/Figure.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob2/src/Main.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob2/src/Rectangle.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob2/src/Triangle.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/external/App.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/Bus.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/Car.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/ElectricCar.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/Truck.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/Vehicle.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Lab5/prob3/src/prob3/VehicleFactory.java" afterPath="" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,6 +61,11 @@
             <path>
               <item name="MPP" type="b2602c69:ProjectViewProjectNode" />
               <item name="MPP" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MPP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MPP" type="462c0819:PsiDirectoryNode" />
+              <item name="Lab5" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
