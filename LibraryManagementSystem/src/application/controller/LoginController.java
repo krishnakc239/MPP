@@ -30,7 +30,7 @@ public class LoginController {
             System.out.println("inside login !!!!!!!!!!!!!!!!");
             String uname = user_name.getText();
             String pword = user_pasword.getText();
-            List<User> userList = FileUtils.getObjectFromFile();
+            List<User> userList = FileUtils.getObjectFromFile(User.class);
             boolean check = false;
             for (User user: userList) {
                 if (uname.equals(user.getUserName()) && pword.equals(user.getPassword())){

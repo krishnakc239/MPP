@@ -13,6 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FileUtils.loadUserLogins();
+        FileUtils.loadMembers();
         Parent root = FXMLLoader.load(getClass().getResource("../ui/MainScreen.fxml"));
         primaryStage.setTitle("Library Management System");
         primaryStage.setScene(new Scene(root));

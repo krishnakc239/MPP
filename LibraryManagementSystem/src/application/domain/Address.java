@@ -1,9 +1,13 @@
 package application.domain;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable{
     private String state;
     private String city;
     private String zip;
+    private String street;
+
 
 
     public Address(String state, String city, String zip, String street) {
@@ -45,7 +49,6 @@ public class Address {
         this.street = street;
     }
 
-    private String street;
 
 
 
