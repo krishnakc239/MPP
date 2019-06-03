@@ -60,7 +60,7 @@ public class FileUtils implements Serializable{
         userList.add(new User("krishna","123"));
         userList.add(new User("sujiv","1234"));
         userList.add(new User("thong","12345"));
-        WriteObjectToFile(userList,USER_OUTPUT_DIR);
+        writeObjectToFile(userList,USER_OUTPUT_DIR);
 
     }
 
@@ -70,11 +70,11 @@ public class FileUtils implements Serializable{
         // Store Serialized User Object in File
         memberList.add(new Member("Krishna","KC","123456","1","Librerian",new Address("IOWA","Fairfield","52257","100 N")));
         memberList.add(new Member("Sujiv","Shrestha","123456","2","Librerian",new Address("IOWA","Fairfield","52257","100 N")));
-        WriteObjectToFile(memberList,OUTPUT_DIR+"member.txt");
+        writeObjectToFile(memberList,OUTPUT_DIR+"member.txt");
 
     }
 
-    public static void WriteObjectToFile(List<? extends Object> serObjList, String directory) {
+    public static void writeObjectToFile(List<? extends Object> serObjList, String directory) {
 
         try {
 

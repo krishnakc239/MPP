@@ -5,17 +5,21 @@ import javafx.beans.property.StringProperty;
 
 import java.io.Serializable;
 
-public class Member extends Role  implements Serializable{
+public class Member   implements Serializable{
 
     private String firstName;
     private String lastName;
     private String phoneNum;
     private String memberNum;
+    private String role;
+
     Address address;
     private String street;
     private String city;
     private String zip;
     private String state;
+
+
 
 
     public Member(){
@@ -24,7 +28,7 @@ public class Member extends Role  implements Serializable{
     public Member(String fname, String lname, String role){
         this.firstName = fname;
         this.lastName = lname;
-        super.setRole(role);
+        this.setRole(role);
     }
 
     public Member(String firstName, String lastName, String phoneNum, String memberNum, String role, Address address) {
@@ -33,7 +37,7 @@ public class Member extends Role  implements Serializable{
         this.phoneNum = phoneNum;
         this.memberNum = memberNum;
         this.address = address;
-        super.setRole(role);
+        this.setRole(role);
     }
 
     public String getFirstName() {
@@ -75,6 +79,14 @@ public class Member extends Role  implements Serializable{
     public void setStreet(Address address){
         this.address.setStreet(address.getStreet());
     }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
     public Address getAddress() {
         return address;
