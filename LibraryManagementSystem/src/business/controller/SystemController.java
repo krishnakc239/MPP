@@ -4,11 +4,15 @@ import business.domain.Address;
 import business.domain.LibraryMember;
 import business.domain.Person;
 import business.utils.FileUtils;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -22,7 +26,7 @@ public class SystemController {
     public Button book;
     public BorderPane borderPane;
     public Button librarian;
-    TableView tableView = new TableView();
+    TableView<LibraryMember> tableView = new TableView();
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
             +"/src/dataaccess/storage/";
 
@@ -32,41 +36,40 @@ public class SystemController {
     public void initialize() {
         librarian.setOnAction((ActionEvent event) -> {
 
-            TableColumn<String, LibraryMember> memberId = new TableColumn<>("Member ID");
+            TableColumn<LibraryMember,String> memberId = new TableColumn<>("Member ID");
             memberId.setCellValueFactory(new PropertyValueFactory<>("memberid"));
 
-            TableColumn<String, LibraryMember> firstNameColumn = new TableColumn<>("First Name");
+            TableColumn<LibraryMember,String> firstNameColumn = new TableColumn<>("First Name");
             firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-            TableColumn<String, LibraryMember> lastNameColumn = new TableColumn<>("Last Name");
+            TableColumn<LibraryMember,String> lastNameColumn = new TableColumn<>("Last Name");
             lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-            TableColumn<String, Person> phoneNum = new TableColumn<>("Phone Number");
+            TableColumn<LibraryMember,String> phoneNum = new TableColumn<>("Phone Number");
             phoneNum.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
 
-//            TableColumn<String, LibraryMember> roleColumn = new TableColumn<>("Role");
-//            roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-
-            TableColumn<String, Address> state = new TableColumn<>("State");
-            state.setCellValueFactory(new PropertyValueFactory<>("state"));
+            TableColumn<LibraryMember,String> stateCol = new TableColumn<>("State");
+            stateCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getState()));
 
 
-            TableColumn<String, Address> city = new TableColumn<>("City");
-            city.setCellValueFactory(new PropertyValueFactory<>("city"));
+            TableColumn<LibraryMember,String > cityCol = new TableColumn<>("City");
+            cityCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getCity()));
 
+            TableColumn<LibraryMember,String > zipCol = new TableColumn<>("Zip");
+            zipCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getZip()));
 
-            TableColumn<String, Address> zip = new TableColumn<>("Zip");
-            zip.setCellValueFactory(new PropertyValueFactory<>("zip"));
+            TableColumn<LibraryMember,String > streetCol = new TableColumn<>("Street");
+            streetCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getStreet()));
 
-            TableColumn<String, Address> street = new TableColumn<>("Street");
-            street.setCellValueFactory(new PropertyValueFactory<>("street"));
 
 
             List<LibraryMember> memberList = FileUtils.getObjectFromFile(LibraryMember.class);
+
             ObservableList data = FXCollections.observableList(memberList);
-            tableView.getColumns().setAll(memberId,firstNameColumn, lastNameColumn, phoneNum, state, city, zip, street);
-            tableView.setItems(data);
+            tableView.getColumns().setAll(memberId,firstNameColumn, lastNameColumn, phoneNum,stateCol,cityCol,zipCol,streetCol);
+
+            tableView.getItems().addAll(data);
 
             memberIdInput = new TextField();
             memberIdInput.setPromptText("Member ID");
@@ -84,9 +87,6 @@ public class SystemController {
             mobNumInput.setPromptText("Mobile Number");
             mobNumInput.setMinWidth(20);
 
-//            roleInput = new TextField();
-//            roleInput.setPromptText("Role");
-//            roleInput.setMinWidth(20);
 
             stateInput = new TextField();
             stateInput.setPromptText("State");

@@ -50,7 +50,8 @@ public class Address implements Serializable{
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "State :"+ state +" city :"+ city +" zip :"+zip+" street: "+ street;
+    }
 }
