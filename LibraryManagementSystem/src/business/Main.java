@@ -1,6 +1,6 @@
-package application;
+package business;
 
-import application.utils.FileUtils;
+import business.utils.FileUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FileUtils.loadUserLogins();
-        FileUtils.loadMembers();
+        FileUtils.loadLibraryMembers();
+
         Parent root = FXMLLoader.load(getClass().getResource("../ui/MainScreen.fxml"));
         primaryStage.setTitle("Library Management System");
         primaryStage.setScene(new Scene(root));

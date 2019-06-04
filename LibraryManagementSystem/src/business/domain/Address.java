@@ -1,4 +1,4 @@
-package application.domain;
+package business.domain;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ public class Address implements Serializable{
     private String city;
     private String zip;
     private String street;
-
+    LibraryMember libraryMember;
 
 
     public Address(String state, String city, String zip, String street) {

@@ -9,27 +9,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="756.0" style="-fx-background-color: #D8F3F1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="756.0" style="-fx-background-color: #080425;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.controller.LoginController">
    <center>
-      <Pane prefHeight="467.0" prefWidth="496.0" style="-fx-background-color: #EFF3D8#EFF3D8;" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
+      <Pane prefHeight="332.0" prefWidth="706.0" style="-fx-background-color: #042025;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+            <Insets bottom="150.0" left="120.0" right="150.0" top="100.0" />
          </BorderPane.margin>
          <children>
-            <Label layoutX="89.0" layoutY="61.0" prefHeight="43.0" prefWidth="102.0" text="User Name">
+            <Label layoutX="89.0" layoutY="61.0" prefHeight="43.0" prefWidth="102.0" text="User Name" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font></Label>
-            <Label layoutX="95.0" layoutY="125.0" prefHeight="39.0" prefWidth="96.0" text="Passowrd">
+            <Label layoutX="95.0" layoutY="125.0" prefHeight="39.0" prefWidth="96.0" text="Passowrd" textFill="#fffafa">
                <font>
                   <Font size="17.0" />
                </font></Label>
             <TextField fx:id="user_name" layoutX="203.0" layoutY="65.0" prefHeight="36.0" prefWidth="170.0" />
             <PasswordField fx:id="user_pasword" layoutX="203.0" layoutY="123.0" prefHeight="36.0" prefWidth="170.0" />
-            <Button fx:id="lgn" layoutX="203.0" layoutY="195.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="65.0" text="Login" />
+            <Button fx:id="lgn" layoutX="203.0" layoutY="195.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="65.0" style="-fx-background-color: #8D211C;" text="Login" textFill="#eeeded">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
             <Label fx:id="err_level" layoutX="90.0" layoutY="16.0" prefHeight="34.0" prefWidth="281.0" />
          </children>
       </Pane>

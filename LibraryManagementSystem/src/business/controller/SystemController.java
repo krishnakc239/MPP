@@ -1,8 +1,9 @@
-package application.controller;
+package business.controller;
 
-import application.domain.Address;
-import application.domain.Member;
-import application.utils.FileUtils;
+import business.domain.Address;
+import business.domain.LibraryMember;
+import business.domain.Person;
+import business.utils.FileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,33 +20,33 @@ import java.util.List;
 public class SystemController {
 
     public Button book;
-    public Button liberian;
-    public Label roleTitle;
     public BorderPane borderPane;
+    public Button librarian;
     TableView tableView = new TableView();
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
             +"/src/dataaccess/storage/";
 
-    TextField firstNameInput, lastNamenput, mobNumInput, memberNumInput,roleInput, streetInput, cityInput, zipInput,stateInput;
+    TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
 
 
     public void initialize() {
-        liberian.setOnAction((ActionEvent event) -> {
+        librarian.setOnAction((ActionEvent event) -> {
 
-            TableColumn<String, Member> firstNameColumn = new TableColumn<>("First Name");
+            TableColumn<String, LibraryMember> memberId = new TableColumn<>("Member ID");
+            memberId.setCellValueFactory(new PropertyValueFactory<>("memberid"));
+
+            TableColumn<String, LibraryMember> firstNameColumn = new TableColumn<>("First Name");
             firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-            TableColumn<String, Member> lastNameColumn = new TableColumn<>("Last Name");
+            TableColumn<String, LibraryMember> lastNameColumn = new TableColumn<>("Last Name");
             lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-            TableColumn<String, Member> phoneNum = new TableColumn<>("Phone Number");
-            phoneNum.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
+            TableColumn<String, Person> phoneNum = new TableColumn<>("Phone Number");
+            phoneNum.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-            TableColumn<String, Member> memberNum = new TableColumn<>("Member Number");
-            memberNum.setCellValueFactory(new PropertyValueFactory<>("memberNum"));
 
-            TableColumn<String, Member> roleColumn = new TableColumn<>("Role");
-            roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+//            TableColumn<String, LibraryMember> roleColumn = new TableColumn<>("Role");
+//            roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
 
             TableColumn<String, Address> state = new TableColumn<>("State");
             state.setCellValueFactory(new PropertyValueFactory<>("state"));
@@ -62,11 +63,14 @@ public class SystemController {
             street.setCellValueFactory(new PropertyValueFactory<>("street"));
 
 
-            List<Member> memberList = FileUtils.getObjectFromFile(Member.class);
+            List<LibraryMember> memberList = FileUtils.getObjectFromFile(LibraryMember.class);
             ObservableList data = FXCollections.observableList(memberList);
-            tableView.getColumns().setAll(firstNameColumn, lastNameColumn, phoneNum, memberNum, state, city, zip, street);
+            tableView.getColumns().setAll(memberId,firstNameColumn, lastNameColumn, phoneNum, state, city, zip, street);
             tableView.setItems(data);
 
+            memberIdInput = new TextField();
+            memberIdInput.setPromptText("Member ID");
+            memberIdInput.setMinWidth(20);
 
             firstNameInput = new TextField();
             firstNameInput.setPromptText("First Name");
@@ -80,13 +84,9 @@ public class SystemController {
             mobNumInput.setPromptText("Mobile Number");
             mobNumInput.setMinWidth(20);
 
-            memberNumInput = new TextField();
-            memberNumInput.setPromptText("Member Number");
-            memberNumInput.setMinWidth(20);
-
-            roleInput = new TextField();
-            roleInput.setPromptText("Role");
-            roleInput.setMinWidth(20);
+//            roleInput = new TextField();
+//            roleInput.setPromptText("Role");
+//            roleInput.setMinWidth(20);
 
             stateInput = new TextField();
             stateInput.setPromptText("State");
@@ -116,7 +116,7 @@ public class SystemController {
 
             hBox.setPadding(new Insets(2,2,2,2));
             hBox.setSpacing(2);
-            hBox.getChildren().addAll(firstNameInput, lastNamenput, mobNumInput,memberNumInput,roleInput,stateInput,streetInput,cityInput,zipInput);
+            hBox.getChildren().addAll(memberIdInput,firstNameInput, lastNamenput, mobNumInput,stateInput,streetInput,cityInput,zipInput);
 
             VBox vBox = new VBox();
             vBox.getChildren().addAll(tableView, hBox,hBox1);
@@ -126,28 +126,25 @@ public class SystemController {
 
     //Add button clicked
     public void addButtonClicked(){
-        Member member = new Member(firstNameInput.getText(),
-                                    lastNamenput.getText(),
-                mobNumInput.getText(),
-                memberNumInput.getText(),
-                roleInput.getText(),
+        LibraryMember member = new LibraryMember(
+                memberIdInput.getText(),
+                new Person(firstNameInput.getText(),lastNamenput.getText(),mobNumInput.getText()),
                 new Address(stateInput.getText(),cityInput.getText(),zipInput.getText(),streetInput.getText()));
 
-
-        List<Member> memberList = new ArrayList<>();
+        //make a list of member to write to storage file
+        List<LibraryMember> memberList = new ArrayList<>();
         memberList.add(member);
 
-        FileUtils.writeObjectToFile(memberList,OUTPUT_DIR+"member.txt");
+        FileUtils.writeObjectToFile(memberList);
 
-        List<Member> memList = FileUtils.getObjectFromFile(Member.class);
+        List<LibraryMember> memList = FileUtils.getObjectFromFile(LibraryMember.class);
 //        tableView.getItems().clear();
         tableView.getItems().addAll(memList);
 
-
+        memberIdInput.clear();
         firstNameInput.clear();
         lastNamenput.clear();
         mobNumInput.clear();
-        memberNumInput.clear();
 
         stateInput.clear();
         cityInput.clear();
@@ -157,11 +154,21 @@ public class SystemController {
 
     //Delete button clicked
     public void deleteButtonClicked(){
-        ObservableList<Member> memberSelected, allMembers;
-        allMembers = tableView.getItems();
+        ObservableList<LibraryMember> memberSelected, allLibraryMembers;
+        allLibraryMembers = tableView.getItems();
         memberSelected = tableView.getSelectionModel().getSelectedItems();
 
-        memberSelected.forEach(allMembers::remove);
+        memberSelected.forEach(allLibraryMembers::remove);
+    }
+
+    //check authorisation
+    public static boolean authorize(String authLevel){
+        if (authLevel.equalsIgnoreCase("ADMIN") ||
+                authLevel.equalsIgnoreCase("LIBRARIAN")||
+                authLevel.equalsIgnoreCase("BOTH")){
+            return true;
+        }
+        return false;
     }
 
 }

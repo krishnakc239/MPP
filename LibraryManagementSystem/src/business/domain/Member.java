@@ -1,7 +1,4 @@
-package application.domain;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+package business.domain;
 
 import java.io.Serializable;
 

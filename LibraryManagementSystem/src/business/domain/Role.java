@@ -1,4 +1,4 @@
-package application.domain;
+package business.domain;
 
 public abstract class Role {
 
