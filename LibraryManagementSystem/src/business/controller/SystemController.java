@@ -9,6 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
@@ -32,8 +38,9 @@ public class SystemController {
             +"/src/dataaccess/storage/";
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
-    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput;
-    public static List<Member> memberList = new ArrayList<>();
+    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput,authorsInput;
+    public static List<LibraryMember> memberList = new ArrayList<>();
+
     public static List<Book> bookList = new ArrayList<>();
 
     public void initialize() {
@@ -216,8 +223,8 @@ public class SystemController {
 
             TableColumn<Book,String> copyNumColumn = new TableColumn<>("Copy Count");
             copyNumColumn.setCellValueFactory(data -> {
-                int copyNum = data.getValue().getCopiesNumber();
-                List<Integer> copyNums = data.getValue().getCopyNums();
+            	int copyNum = data.getValue().getNumCopies();
+            	List<Integer> copyNums = data.getValue().getCopyNums();
                 return new SimpleStringProperty(String.valueOf(copyNum) + ":" + copyNums.toString());
             });
 
@@ -407,25 +414,42 @@ public class SystemController {
 
     //Add button clicked
     public void addBookButtonClicked(){
-        List<Author> authors = new ArrayList<>();
-        Book newbook = new Book(
-                bookISBNInput.getText(), bookTitleInput.getText(),
-                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
-                authors
-        );
-
-        //add new book data  storage file
-        for (Book b: bookList) {
-            if (b.getIsbn().equals(newbook.getIsbn())){
-
+    	
+    	// check isbn for existing book
+    	// if yes, increase the book copy numbers
+    	boolean isExistingBook = false;
+        for (int i=0; i< bookList.size(); i++ ) {
+        	Book book = bookList.get(i);
+            if (book.getIsbn().equals(bookISBNInput.getText())) {
+            	book.addCopy();
+            	isExistingBook = true;
             }
         }
-        for (int i=0;i< bookList.size();i++){
-            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
-//                bookList.get(i).;
-            }
+    	
+    	// new book
+        if (!isExistingBook) {
+	        List<Author> authors = new ArrayList<>();
+	        // FIXME: add authors parser here
+	        Book newbook = new Book(
+	                bookISBNInput.getText(), bookTitleInput.getText(),
+	                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
+	                authors
+	        );
+	
+	        //add new book data  storage file
+	        for (Book b: bookList) {
+	            if (b.getIsbn().equals(newbook.getIsbn())){
+	
+	            }
+	        }
+	        for (int i=0;i< bookList.size();i++){
+	            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
+	//                bookList.get(i).;
+	            }
+	        }
+	        bookList.add(newbook);
         }
-        bookList.add(newbook);
+        
         FileUtils.writeObjectToFile(bookList);
 
         bookTableView.getItems().clear();
