@@ -9,6 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
@@ -429,17 +435,7 @@ public class SystemController {
 	                authors
 	        );
 
-	        //add new book data  storage file
-	        for (Book b: bookList) {
-	            if (b.getIsbn().equals(newbook.getIsbn())){
 
-	            }
-	        }
-	        for (int i=0;i< bookList.size();i++){
-	            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
-	//                bookList.get(i).;
-	            }
-	        }
 	        bookList.add(newbook);
         }
 
