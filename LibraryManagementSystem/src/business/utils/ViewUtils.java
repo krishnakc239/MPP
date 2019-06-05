@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class ViewUtils {
     public  Parent getRoot(String fxmlUrl){
-        System.out.println("fxml url ========="+ fxmlUrl);
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource(fxmlUrl));

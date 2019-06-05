@@ -17,17 +17,15 @@ import java.util.List;
 
 public class LoginController {
 
-    public BorderPane borderPane;
-    public Parent root;
     public TextField user_name;
-    public PasswordField user_pasword;
+    public PasswordField user_password;
     public Button lgn;
-    public Label err_level;
+    public Label err_lvl;
 
     public void initialize(){
         lgn.setOnAction(event -> {
             String uname = user_name.getText();
-            String pword = user_pasword.getText();
+            String pword = user_password.getText();
             List<User> userList = FileUtils.getObjectFromFile(User.class);
             boolean check = false;
             for (User user: userList) {
@@ -45,7 +43,7 @@ public class LoginController {
                 }
             }
             if (!check) {
-                err_level.setText("Login Failed");
+                err_lvl.setText("Login Failed");
             }
 
         });

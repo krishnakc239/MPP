@@ -18,13 +18,8 @@ public class LibraryMember extends Person {
         this.memberid = memberid;
     }
 
-//    @Override
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    @Override
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+    @Override
+    public String toString() {
+        return memberid+" "+getFirstName()+" "+getLastName()+" "+getPhone()+" "+getAddress().getState()+" "+getAddress().getCity()+" "+getAddress().getZip()+" "+getAddress().getStreet();
+    }
 }

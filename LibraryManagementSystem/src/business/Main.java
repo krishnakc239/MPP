@@ -14,6 +14,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FileUtils.loadUserLogins();
         FileUtils.loadLibraryMembers();
+        FileUtils.loadBooks();
 
         Parent root = FXMLLoader.load(getClass().getResource("../ui/MainScreen.fxml"));
         primaryStage.setTitle("Library Management System");
