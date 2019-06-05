@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,9 +39,17 @@ public class SystemController {
             +"/src/dataaccess/storage/";
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
+<<<<<<< HEAD
     TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput;
     public static List<Member> memberList = new ArrayList<>();
+=======
+    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput;
+    public ComboBox<String> authorsInput;
+    TextField authorFirstNameInput, authorLastNameInput, authorPhoneInput, authorCredentialsInput, authorBioInput, authorAdrressInput;
+    public static List<LibraryMember> memberList = new ArrayList<>();
+>>>>>>> support adding authors
     public static List<Book> bookList = new ArrayList<>();
+    public static List<Author> authorList = new ArrayList<>();
 
     public void initialize() {
         librarian.setOnAction((ActionEvent event) -> {
@@ -238,10 +247,10 @@ public class SystemController {
             bookTitleInput.setMinWidth(20);
 
             bookMaxCheckoutLengthInput = new TextField();
-            bookMaxCheckoutLengthInput.setPromptText("MaxCheckoutLengthInput");
+            bookMaxCheckoutLengthInput.setPromptText("Max Checkout Length");
             bookMaxCheckoutLengthInput.setMinWidth(20);
 
-            authorsInput = new TextField();
+            authorsInput = new ComboBox<String>();
             authorsInput.setPromptText("Authors");
             authorsInput.setMinWidth(20);
 
@@ -257,11 +266,10 @@ public class SystemController {
             bookTableView.getItems().addAll(books);
 
             //Button
-            Button addButton = new Button("Add");
+            Button addButton = new Button("Add Book");
             addButton.setOnAction(e -> addBookButtonClicked());
-            Button deleteButton = new Button("Delete");
+            Button deleteButton = new Button("Delete Book");
             deleteButton.setOnAction(e -> deleteBookButtonClicked());
-
 
             HBox hBox1 = new HBox();
             hBox1.getChildren().addAll(addButton,deleteButton);
@@ -270,9 +278,52 @@ public class SystemController {
             hBox.setPadding(new Insets(2,2,2,2));
             hBox.setSpacing(2);
             hBox.getChildren().addAll(bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput);
+            
+            // author box
+            HBox hBoxAuthor = new HBox();
+            hBoxAuthor.setPadding(new Insets(2,2,2,2));
+            
+            authorFirstNameInput = new TextField();
+            authorFirstNameInput.setPromptText("First Name");
+            authorFirstNameInput.setMinWidth(15);
+            
+            authorLastNameInput = new TextField();
+            authorLastNameInput.setPromptText("Last Name");
+            authorLastNameInput.setMinWidth(15);
+            
+            authorPhoneInput = new TextField();
+            authorPhoneInput.setPromptText("Phone");
+            authorPhoneInput.setMinWidth(15);
+            
+            authorCredentialsInput = new TextField();
+            authorCredentialsInput.setPromptText("Credentials");
+            authorCredentialsInput.setMinWidth(15);
+            
+            authorBioInput = new TextField();
+            authorBioInput.setPromptText("Short Bio");
+            authorBioInput.setMinWidth(15);
+            
+            authorAdrressInput = new TextField();
+            authorAdrressInput.setPromptText("Adress");
+            authorAdrressInput.setMinWidth(15);
+            
+            //Button
+            Button addAuthorButton = new Button("Add Author");
+            addAuthorButton.setOnAction(e -> addAuthorButtonClicked());
+            
+            hBoxAuthor.getChildren().addAll(new Label("Author:\t"), authorFirstNameInput, authorLastNameInput, authorPhoneInput, addAuthorButton);
+            
+            HBox hBoxAuthor2 = new HBox();
+            hBoxAuthor2.setPadding(new Insets(2,2,2,2));
+            hBoxAuthor2.getChildren().addAll(new Label("\t\t"), authorCredentialsInput, authorBioInput, authorAdrressInput);
+
+            
+            // Add, Delete box
+            HBox hBox1 = new HBox();
+            hBox1.getChildren().addAll(addButton,deleteButton);
 
             VBox vBox = new VBox();
-            vBox.getChildren().addAll(bookTableView, hBox,hBox1);
+            vBox.getChildren().addAll(bookTableView, hBox, hBoxAuthor, hBoxAuthor2, hBox1);
             borderPane.setCenter(vBox);
 
 //            /** edit and save*/
@@ -414,6 +465,8 @@ public class SystemController {
     //Add button clicked
     public void addBookButtonClicked(){
 
+    	//System.out.println("[begin]\n" + bookList);
+
     	// check isbn for existing book
     	// if yes, increase the book copy numbers
     	boolean isExistingBook = false;
@@ -428,13 +481,13 @@ public class SystemController {
     	// new book
         if (!isExistingBook) {
 	        List<Author> authors = new ArrayList<>();
-	        // FIXME: add authors parser here
-	        Book newbook = new Book(
+	        authors.addAll(authorList);
+
+        	Book newbook = new Book(
 	                bookISBNInput.getText(), bookTitleInput.getText(),
 	                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
 	                authors
 	        );
-
 
 	        bookList.add(newbook);
         }
@@ -447,6 +500,43 @@ public class SystemController {
         bookISBNInput.clear();
         bookTitleInput.clear();
         bookMaxCheckoutLengthInput.clear();
+        
+        authorList.clear();
+        /*
+        authorFirstNameInput.clear();
+        authorLastNameInput.clear();
+        authorPhoneInput.clear();
+        authorCredentialsInput.clear();
+        authorBioInput.clear();
+        authorAdrressInput.clear();
+        authorsInput.getItems().clear();
+        */
+        
+        //System.out.println("[end]\n" + bookList);
+    }
+    
+    //Add button clicked
+    public void addAuthorButtonClicked() {
+    	
+    	// create input author
+    	//String firstName, String lastName, String phone, String address
+    	Person person = new Person(
+    			authorFirstNameInput.getText(),
+    			authorLastNameInput.getText(),
+    			authorPhoneInput.getText(),
+    			authorAdrressInput.getText());
+    	Author inputAuthor = new Author(person, authorCredentialsInput.getText(), authorBioInput.getText());
+    	
+    	for (Author a : authorList) {
+    		if (a.equals(inputAuthor)) {
+    			return;
+    		}
+    	}
+    	
+    	authorsInput.getItems().add(inputAuthor.toString());
+    	
+    	authorList.add(inputAuthor);
+    	//System.out.println(bookList);
     }
 
     //Delete button clicked

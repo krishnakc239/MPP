@@ -3,22 +3,39 @@ package business.domain;
 import java.io.Serializable;
 
 public class Person  implements Serializable{
-    private String firstName;
+
+	private static final long serialVersionUID = 4703001980224962432L;
+	private String firstName;
     private String lastName;
     private String phone;
     private Address address;
 
-    public Person(String firstName, String lastName, String phone){
+    public Person(String firstName, String lastName, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
     }
+    
+    public Person(String firstName, String lastName, String phone, String address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = new Address(address);
+    }
+    
     Person(Person p, Address address){
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
         this.phone = p.getPhone();
         this.address = address;
+    }
+    
+    Person(Person p) {
+        this.firstName = p.getFirstName();
+        this.lastName = p.getLastName();
+        this.phone = p.getPhone();
+        this.address = p.getAddress();
     }
 
     public String getFirstName() {
