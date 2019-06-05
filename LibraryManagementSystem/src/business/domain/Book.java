@@ -29,7 +29,9 @@ final public class Book implements Serializable {
             }
         }
     }
-
+    public int getCopiesNumber(){
+        return copies.length;
+    }
     public List<Integer> getCopyNums() {
         List<Integer> retVal = new ArrayList<>();
         for(BookCopy c : copies) {
@@ -63,28 +65,7 @@ final public class Book implements Serializable {
                 .reduce(false, (x,y) -> x || y);
     }
 
-    public int getNumCopies() {
-        return copies.length;
-    }
 
-    public String getTitle() {
-        return title;
-    }
-    public BookCopy[] getCopies() {
-        return copies;
-    }
-
-    public List<Author> getAuthors() {
-        return authors;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public int getMaxCheckoutLength() {
-        return maxCheckoutLength;
-    }
 
     public BookCopy getNextAvailableCopy() {
         Optional<BookCopy> optional
@@ -102,11 +83,47 @@ final public class Book implements Serializable {
         return null;
     }
 
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public BookCopy[] getCopies() {
+        return copies;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public String getIsbn(){
+        return isbn;
+    }
+
+    public void setIsbn(String isbn){
+        this.isbn = isbn;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getMaxCheckoutLength(){
+        return maxCheckoutLength;
+    }
+
+    public void setMaxCheckoutLength(int maxCheckoutLength){
+        this.maxCheckoutLength = maxCheckoutLength;
+    }
+
+
     @Override
     public String toString() {
         return "isbn: " + isbn + ", maxLength: " + maxCheckoutLength + ", available: " + isAvailable();
     }
-
-
 }
 

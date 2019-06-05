@@ -1,10 +1,10 @@
 package business.domain;
 
-public class LibraryMember extends Person {
+public class Member extends Person {
     private String memberid;
 //    private Address address;
 
-    public LibraryMember(String memberid,Person person,Address address) {
+    public Member(String memberid, Person person, Address address) {
         super(person,address);
 //        this.address = address;
         this.memberid = memberid;

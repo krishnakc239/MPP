@@ -7,16 +7,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,49 +24,51 @@ public class SystemController {
     public Button book;
     public BorderPane borderPane;
     public Button librarian;
-    TableView<LibraryMember> tableView = new TableView();
+    public Button checkout;
+    TableView<Member> tableView = new TableView();
     TableView<Book> bookTableView = new TableView();
+    TableView<CheckoutRecordEntry> checkoutTable = new TableView();
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
             +"/src/dataaccess/storage/";
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
-    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput,copyNumInput;
-    public static List<LibraryMember> memberList = new ArrayList<>();
+    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput;
+    public static List<Member> memberList = new ArrayList<>();
     public static List<Book> bookList = new ArrayList<>();
 
     public void initialize() {
         librarian.setOnAction((ActionEvent event) -> {
 
             //setup tableview
-            TableColumn<LibraryMember,String> memberIdCol = new TableColumn<>("Member ID");
+            TableColumn<Member,String> memberIdCol = new TableColumn<>("Member ID");
             memberIdCol.setCellValueFactory(new PropertyValueFactory<>("memberid"));
 
-            TableColumn<LibraryMember,String> firstNameColumn = new TableColumn<>("First Name");
+            TableColumn<Member,String> firstNameColumn = new TableColumn<>("First Name");
             firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-            TableColumn<LibraryMember,String> lastNameColumn = new TableColumn<>("Last Name");
+            TableColumn<Member,String> lastNameColumn = new TableColumn<>("Last Name");
             lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-            TableColumn<LibraryMember,String> phoneNumColumn = new TableColumn<>("Phone Number");
+            TableColumn<Member,String> phoneNumColumn = new TableColumn<>("Phone Number");
             phoneNumColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
 
-            TableColumn<LibraryMember,String> stateCol = new TableColumn<>("State");
+            TableColumn<Member,String> stateCol = new TableColumn<>("State");
             stateCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getState()));
 
 
-            TableColumn<LibraryMember,String > cityCol = new TableColumn<>("City");
+            TableColumn<Member,String > cityCol = new TableColumn<>("City");
             cityCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getCity()));
 
-            TableColumn<LibraryMember,String > zipCol = new TableColumn<>("Zip");
+            TableColumn<Member,String > zipCol = new TableColumn<>("Zip");
             zipCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getZip()));
 
-            TableColumn<LibraryMember,String > streetCol = new TableColumn<>("Street");
+            TableColumn<Member,String > streetCol = new TableColumn<>("Street");
             streetCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress().getStreet()));
 
 
 
-            memberList = FileUtils.getObjectFromFile(LibraryMember.class);
+            memberList = FileUtils.getObjectFromFile(Member.class);
             ObservableList data = FXCollections.observableList(memberList);
             tableView.getColumns().setAll(memberIdCol,firstNameColumn, lastNameColumn, phoneNumColumn,stateCol,cityCol,zipCol,streetCol);
 
@@ -133,7 +134,7 @@ public class SystemController {
 
 //            memberIdCol.setCellFactory(TextFieldTableCell.forTableColumn());
 //            memberIdCol.setOnEditCommit(t -> {
-//                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+//                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
 //                member.setMemberid(t.getNewValue());
 //                System.out.println("new row ==="+t.getTableView().getItems().get(t.getTablePosition().getRow()));
 //                updateDataFile(member);
@@ -141,48 +142,48 @@ public class SystemController {
 
             firstNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
             firstNameColumn.setOnEditCommit(t -> {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.setFirstName(t.getNewValue());
                 updateDataFile(member);
             });
 
             lastNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
             lastNameColumn.setOnEditCommit(t -> {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.setLastName(t.getNewValue());
                 updateDataFile(member);
             });
             phoneNumColumn.setCellFactory(TextFieldTableCell.forTableColumn());
             phoneNumColumn.setOnEditCommit(t ->{
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.setPhone(t.getNewValue());
                 updateDataFile(member);
             });
 
             stateCol.setCellFactory(TextFieldTableCell.forTableColumn());
             stateCol.setOnEditCommit(t -> {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.getAddress().setState(t.getNewValue());
                 updateDataFile(member);
             });
 
             cityCol.setCellFactory(TextFieldTableCell.forTableColumn());
             cityCol.setOnEditCommit(t ->  {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.getAddress().setCity(t.getNewValue());
                 updateDataFile(member);
             });
 
             zipCol.setCellFactory(TextFieldTableCell.forTableColumn());
             zipCol.setOnEditCommit(t ->  {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.getAddress().setZip(t.getNewValue());
                 updateDataFile(member);
             });
 
             streetCol.setCellFactory(TextFieldTableCell.forTableColumn());
             streetCol.setOnEditCommit(t ->  {
-                LibraryMember member = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                Member member = t.getTableView().getItems().get(t.getTablePosition().getRow());
                 member.getAddress().setStreet(t.getNewValue());
                 updateDataFile(member);
             });
@@ -207,7 +208,7 @@ public class SystemController {
                         List<Author> authorList = data.getValue().getAuthors();
                         String authorNames ="";
                         for (Author a: authorList) {
-                            authorNames += a.getFirstName()+ " "+ a.getLastName()+", ";
+                            authorNames += "[" + a.getFirstName()+ ", "+ a.getLastName()+", " + a.getPhone() + "]";
                         }
                         return new SimpleStringProperty(authorNames);
                     }
@@ -215,12 +216,9 @@ public class SystemController {
 
             TableColumn<Book,String> copyNumColumn = new TableColumn<>("Copy Count");
             copyNumColumn.setCellValueFactory(data -> {
-                BookCopy[] bookCopyList = data.getValue().getCopies();
-                int copySum =0;
-                for (BookCopy bc : bookCopyList) {
-                    copySum+=bc.getCopyNum();
-                }
-                return new SimpleStringProperty(String.valueOf(copySum));
+                int copyNum = data.getValue().getCopiesNumber();
+                List<Integer> copyNums = data.getValue().getCopyNums();
+                return new SimpleStringProperty(String.valueOf(copyNum) + ":" + copyNums.toString());
             });
 
 
@@ -241,9 +239,9 @@ public class SystemController {
             authorsInput.setPromptText("Authors");
             authorsInput.setMinWidth(20);
 
-            copyNumInput = new TextField();
+            /*copyNumInput = new TextField();
             copyNumInput.setPromptText("Copy Count");
-            copyNumInput.setMinWidth(20);
+            copyNumInput.setMinWidth(20);*/
 
             bookList = FileUtils.getObjectFromFile(Book.class);
 
@@ -258,37 +256,115 @@ public class SystemController {
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(e -> deleteBookButtonClicked());
 
-            HBox hBox = new HBox();
+
             HBox hBox1 = new HBox();
             hBox1.getChildren().addAll(addButton,deleteButton);
 
+            HBox hBox = new HBox();
             hBox.setPadding(new Insets(2,2,2,2));
             hBox.setSpacing(2);
-            hBox.getChildren().addAll(bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput);
+            hBox.getChildren().addAll(bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput);
 
             VBox vBox = new VBox();
             vBox.getChildren().addAll(bookTableView, hBox,hBox1);
             borderPane.setCenter(vBox);
-        });
+
+//            /** edit and save*/
+//            bookTableView.setEditable(true);
+//            bookTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
+//
+//
+//            bookISBNColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//            bookISBNColumn.setOnEditCommit(t -> {
+//                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+//                book.setIsbn(t.getNewValue());
+//                updateDataFile(book);
+//            });
+//
+//
+//            bookTitleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//            bookTitleColumn.setOnEditCommit(t -> {
+//                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+//                book.setTitle(t.getNewValue());
+//                updateDataFile(book);
+//            });
+////
+////            bookMaxCheckoutLengthColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+////            bookMaxCheckoutLengthColumn.setOnEditCommit(t -> {
+////                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+////                book.setMaxCheckoutLength(Integer.parseInt(t.getNewValue()));
+////                updateDataFile(book);
+////            });
+////
+////            authorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+////            authorColumn.setOnEditCommit(t -> {
+////                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+////                String newAuthorNames = t.getNewValue();
+////                if (newAuthorNames != null || !newAuthorNames.equals("")){
+////                    String[] individualName = newAuthorNames.split(",");
+////                    List<Author> authorList = book.getAuthors();
+////                    for (int i =0; i< individualName.length;i++){
+////                        authorList.get(i).setFirstName(individualName[i].split("\\s")[0]);// set every author first name by first part of splitted author name from table
+////                        authorList.get(i).setLastName(individualName[i].split("\\s")[1]);
+////
+////                    }
+////                    book.setAuthors(authorList);
+////
+////                }
+////                updateDataFile(book);
+////            });
+
+
+//            checkout.setOnAction((ActionEvent event1) -> {
+//                System.out.println("checkout clicked !!!!!!");
+//
+////                FXMLLoader loader = new FXMLLoader();
+////                loader.setLocation(getClass().getResource("../../ui/checkBook.fxml"));
+//
+//                //BorderPane in CenterView1.fxml
+//                try {
+//                    AnchorPane centerView1 = FXMLLoader.load(getClass().getResource("../../ui/checkBook.fxml"));
+//                    borderPane.setCenter(centerView1);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+
+            });
     }
 
-    public void updateDataFile(LibraryMember member){
+    public void updateDataFile(Object obj){
         /** first find the modified member in file memberList and remove previous one*/
-        for (LibraryMember m: memberList){
-            if (m.getMemberid().equalsIgnoreCase(member.getMemberid())){
-                memberList.remove(m);
-                break;
+        if (obj instanceof Member){
+            Member newMember = (Member) obj;
+            for (Member m: memberList){
+                if (m.getMemberid().equalsIgnoreCase(newMember.getMemberid())){
+                    memberList.remove(m);
+                    break;
+                }
+             }
+            memberList.add(newMember);
+            FileUtils.writeObjectToFile(memberList);
+
+        }else if (obj instanceof Book){
+            Book newBook = (Book) obj;
+            for (Book b: bookList){
+                if (b.getIsbn().equalsIgnoreCase(newBook.getIsbn())){
+                    memberList.remove(book);
+                    break;
+                }
             }
+            bookList.add(newBook);
+            FileUtils.writeObjectToFile(bookList);
         }
         /** add new member to file memberList*/
-        memberList.add(member);
-        FileUtils.writeObjectToFile(memberList);
+
     }
 
     //Add button clicked
     public void addButtonClicked(){
         /** new member data*/
-        LibraryMember member = new LibraryMember(
+        Member member = new Member(
                 memberIdInput.getText(),
                 new Person(firstNameInput.getText(),lastNamenput.getText(),mobNumInput.getText()),
                 new Address(stateInput.getText(),cityInput.getText(),zipInput.getText(),streetInput.getText()));
@@ -314,15 +390,15 @@ public class SystemController {
 
     /**Delete button clicked*/
     public void deleteButtonClicked(){
-        ObservableList<LibraryMember> memberSelected, allLibraryMembers;
-        allLibraryMembers = tableView.getItems();
+        ObservableList<Member> memberSelected, allMembers;
+        allMembers = tableView.getItems();
         memberSelected = tableView.getSelectionModel().getSelectedItems();
 
         /** remove deleted member from fileMemberList also*/
         memberList.removeAll(memberSelected);
 
         System.out.println(memberSelected +" is deleted from file");
-        memberSelected.forEach(allLibraryMembers::remove);
+        memberSelected.forEach(allMembers::remove);
 
         FileUtils.writeObjectToFile(memberList);
         System.out.println("New memberList written to file");
@@ -386,4 +462,54 @@ public class SystemController {
         return false;
     }
 
+    public void check(ActionEvent actionEvent) {
+        Label memberIdLbl = new Label("Member ID");
+        Label isbnLbl = new Label("Book ISBN");
+        isbnLbl.setPadding(new Insets(0,0,0,5));
+        Button checkAvailable = new Button("Check");
+
+        TextField idInput = new TextField();
+        TextField isbnInput = new TextField();
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(memberIdLbl,idInput);
+
+        HBox hBox1 = new HBox();
+        hBox1.getChildren().addAll(isbnLbl,isbnInput);
+
+        hBox.setPadding(new Insets(10,20,20,200));
+        hBox.setSpacing(20);
+
+        hBox1.setPadding(new Insets(10,20,20,200));
+        hBox1.setSpacing(20);
+
+        Label checkInfo = new Label();
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(checkInfo,hBox,hBox1,checkAvailable);
+        vBox.setAlignment(Pos.CENTER);
+        borderPane.setCenter(vBox);
+
+        checkAvailable.setOnAction(event -> {
+            System.out.println(" check clicked ");
+            String member_id = idInput.getText();
+            String isbn = isbnInput.getText();
+
+            Member member= FileUtils.findMemberBId(member_id);
+            Book book = FileUtils.findBookById(isbn);
+
+            if (member != null && book !=null && book.getCopiesNumber() >0){
+
+                checkInfo.setText("Book found");
+                LocalDate checkoutDate = LocalDate.now();
+                LocalDate dueDate = checkoutDate.plusDays(book.getMaxCheckoutLength());
+                BookCopy[] bookCopyList = book.getCopies();
+                bookCopyList[bookCopyList.length-1].changeAvailability();
+//                CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(LocalDate.now())
+            }else {
+                checkInfo.setText("Sorry book not found with that information");
+            }
+        });
+
+
+    }
 }
