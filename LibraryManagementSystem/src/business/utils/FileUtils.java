@@ -71,15 +71,18 @@ public class FileUtils implements Serializable{
         bookList.add(new Book("1111", "Title 1", 10, Arrays.asList(
                 new Author(new Person("firstN1","lastN1","12345"), "Cred1", new Address("IOWA1","Fairfield1","52257","100 N")),
                 new Author(new Person("firstN2","lastN2","12345"), "Cred1", new Address("IOWA2","Fairfield2","52257","100 N")))));
+        /*
         bookList.add(new Book("1111", "Title 1", 10, Arrays.asList(
                 new Author(new Person("firstN1","lastN1","12345"), "Cred1", new Address("IOWA1","Fairfield1","52257","100 N")),
                 new Author(new Person("firstN2","lastN2","12345"), "Cred1", new Address("IOWA2","Fairfield2","52257","100 N")))));
         bookList.add(new Book("1111", "Title 1", 10, Arrays.asList(
                 new Author(new Person("firstN1","lastN1","12345"), "Cred1", new Address("IOWA1","Fairfield1","52257","100 N")),
                 new Author(new Person("firstN2","lastN2","12345"), "Cred1", new Address("IOWA2","Fairfield2","52257","100 N")))));
+        */
         bookList.add(new Book("1112", "Title 2", 10, Arrays.asList(
                 new Author(new Person("Author1","LastAuthorName1","12345"), "Cred1", new Address("IOWA","Fairfield","52257","100 N")),
                 new Author(new Person("Author2","LastAuthorName2","12345"), "Cred1", new Address("IOWA","Fairfield","52257","100 N")))));
+
         writeObjectToFile(bookList);
 
     }

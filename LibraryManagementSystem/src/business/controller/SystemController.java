@@ -39,7 +39,7 @@ public class SystemController {
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
     TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput,authorsInput;
-    public static List<LibraryMember> memberList = new ArrayList<>();
+    public static List<Member> memberList = new ArrayList<>();
 
     public static List<Book> bookList = new ArrayList<>();
 
@@ -223,7 +223,7 @@ public class SystemController {
 
             TableColumn<Book,String> copyNumColumn = new TableColumn<>("Copy Count");
             copyNumColumn.setCellValueFactory(data -> {
-            	int copyNum = data.getValue().getNumCopies();
+            	int copyNum = data.getValue().getCopiesNumber();
             	List<Integer> copyNums = data.getValue().getCopyNums();
                 return new SimpleStringProperty(String.valueOf(copyNum) + ":" + copyNums.toString());
             });
