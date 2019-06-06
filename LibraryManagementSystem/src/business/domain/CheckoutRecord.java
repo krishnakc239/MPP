@@ -1,13 +1,15 @@
 package business.domain;
 
-public class CheckoutRecord {
-    private CheckoutRecordEntry checkoutRecordEntry;
+import java.io.Serializable;
 
+public class CheckoutRecord implements Serializable {
+    private CheckoutRecordEntry checkoutRecordEntry;
+    CheckoutRecord(){}
     public CheckoutRecord(CheckoutRecordEntry checkoutRecordEntry) {
         this.checkoutRecordEntry = checkoutRecordEntry;
     }
 
-    public CheckoutRecordEntry getCheckoutRecord() {
+    public CheckoutRecordEntry getCheckoutRecordEntry() {
         return checkoutRecordEntry;
     }
 

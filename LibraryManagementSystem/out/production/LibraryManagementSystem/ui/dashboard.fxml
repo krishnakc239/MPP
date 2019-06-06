@@ -24,14 +24,14 @@
                   </Label>
                </children>
             </HBox>
-            <HBox prefHeight="23.0" prefWidth="729.0" style="-fx-background-color: #250414;">
+            <HBox prefHeight="22.0" prefWidth="729.0" style="-fx-background-color: #250414;">
                <children>
                   <Button fx:id="book" mnemonicParsing="false" text="Book">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="librarian" mnemonicParsing="false" prefHeight="29.0" prefWidth="88.0" text="Member">
+                  <Button fx:id="librarian" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Librarian">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -39,10 +39,13 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="checkout" mnemonicParsing="false" onAction="#check" text="Checkout">
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" text="Log Out">
                      <font>
                         <Font size="15.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="480.0" />
+                     </HBox.margin>
                   </Button>
                </children>
             </HBox>

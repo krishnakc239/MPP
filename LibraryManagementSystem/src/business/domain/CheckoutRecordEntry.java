@@ -1,8 +1,9 @@
 package business.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CheckoutRecordEntry {
+public class CheckoutRecordEntry implements Serializable{
     private LocalDate checkoutDate;
     private LocalDate dueDate;
     private BookCopy bookCopy;

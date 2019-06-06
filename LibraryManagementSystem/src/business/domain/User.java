@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String userId;
     private String password;
     private String authorizationLevel;
+    public static  String userSessionRole = "";
 
     public User(String userid, String password,String authlevel) {
         this.userId = userid;

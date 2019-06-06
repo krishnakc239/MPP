@@ -6,17 +6,25 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class SystemController {
@@ -25,17 +33,24 @@ public class SystemController {
     public BorderPane borderPane;
     public Button librarian;
     public Button checkout;
+    public Button logout;
     TableView<Member> tableView = new TableView();
     TableView<Book> bookTableView = new TableView();
-    TableView<CheckoutRecordEntry> checkoutTable = new TableView();
+    TableView checkoutTable = new TableView();
+    static List<Member> membersWithCheckOuts = new ArrayList<>();
+    static boolean checkCheckoutTableCreated= false;
+
     public static final String OUTPUT_DIR = System.getProperty("user.dir")
             +"/src/dataaccess/storage/";
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
-    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput;
+    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput;
+    TextField afirstnameInput,alastNameInput,aphoneInput,astateInput,acityInput,azipInput,astreeetInput;
     public static List<Member> memberList = new ArrayList<>();
     public static List<Book> bookList = new ArrayList<>();
-
+    public void hideCheckoutButton(){
+        checkout.setVisible(false);
+    }
     public void initialize() {
         librarian.setOnAction((ActionEvent event) -> {
 
@@ -123,8 +138,16 @@ public class SystemController {
             hBox.setSpacing(2);
             hBox.getChildren().addAll(memberIdInput,firstNameInput, lastNamenput, mobNumInput,stateInput,streetInput,cityInput,zipInput);
 
+
             VBox vBox = new VBox();
-            vBox.getChildren().addAll(tableView, hBox,hBox1);
+//            vBox.getChildren().addAll(tableView, hBox,hBox1);
+            if (User.userSessionRole.equals(Role.ADMIN)){
+                vBox.getChildren().addAll(bookTableView, hBox,hBox1);
+                checkout.setVisible(false);
+            }else if ((User.userSessionRole.equals(Role.LIBRARIAN))){
+                checkout.setVisible(true);
+                vBox.getChildren().addAll(bookTableView);
+            }
             borderPane.setCenter(vBox);
 
 
@@ -235,10 +258,6 @@ public class SystemController {
             bookMaxCheckoutLengthInput.setPromptText("MaxCheckoutLengthInput");
             bookMaxCheckoutLengthInput.setMinWidth(20);
 
-            authorsInput = new TextField();
-            authorsInput.setPromptText("Authors");
-            authorsInput.setMinWidth(20);
-
             /*copyNumInput = new TextField();
             copyNumInput.setPromptText("Copy Count");
             copyNumInput.setMinWidth(20);*/
@@ -263,10 +282,48 @@ public class SystemController {
             HBox hBox = new HBox();
             hBox.setPadding(new Insets(2,2,2,2));
             hBox.setSpacing(2);
-            hBox.getChildren().addAll(bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput);
+            hBox.getChildren().addAll(bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput);
+
+            HBox hBox2 = new HBox();
+            afirstnameInput = new TextField();
+            afirstnameInput.setPromptText("Author FirstName");
+            afirstnameInput.setMinWidth(20);
+
+            alastNameInput = new TextField();
+            alastNameInput.setPromptText("Author LastName");
+            alastNameInput.setMinWidth(20);
+
+            aphoneInput = new TextField();
+            aphoneInput.setPromptText("Author Phone");
+            aphoneInput.setMinWidth(20);
+
+            astateInput = new TextField();
+            astateInput.setPromptText("Author State");
+            astateInput.setMinWidth(20);
+
+            acityInput = new TextField();
+            acityInput.setPromptText("Author City");
+            acityInput.setMinWidth(20);
+
+            azipInput = new TextField();
+            azipInput.setPromptText("Author Zip");
+            azipInput.setMinWidth(20);
+
+            astreeetInput = new TextField();
+            astreeetInput.setPromptText("Author Street");
+            astreeetInput.setMinWidth(20);
+
+            hBox2.getChildren().addAll(afirstnameInput,alastNameInput,aphoneInput,astateInput,acityInput,azipInput,astreeetInput);
+            hBox2.setPadding(new Insets(2,2,2,2));
+            hBox2.setSpacing(2);
 
             VBox vBox = new VBox();
-            vBox.getChildren().addAll(bookTableView, hBox,hBox1);
+            if (User.userSessionRole.equals(Role.ADMIN)){
+                vBox.getChildren().addAll(bookTableView, hBox,hBox2,hBox1);
+                checkout.setVisible(false);
+            }else {
+                vBox.getChildren().addAll(bookTableView);
+            }
             borderPane.setCenter(vBox);
 
 //            /** edit and save*/
@@ -282,37 +339,37 @@ public class SystemController {
 //            });
 //
 //
-//            bookTitleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-//            bookTitleColumn.setOnEditCommit(t -> {
+            bookTitleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            bookTitleColumn.setOnEditCommit(t -> {
+                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                book.setTitle(t.getNewValue());
+                updateDataFile(book);
+            });
+////
+//            bookMaxCheckoutLengthColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//            bookMaxCheckoutLengthColumn.setOnEditCommit(t -> {
 //                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
-//                book.setTitle(t.getNewValue());
+//                book.setMaxCheckoutLength(Integer.parseInt(t.getNewValue()));
 //                updateDataFile(book);
 //            });
 ////
-////            bookMaxCheckoutLengthColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-////            bookMaxCheckoutLengthColumn.setOnEditCommit(t -> {
-////                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
-////                book.setMaxCheckoutLength(Integer.parseInt(t.getNewValue()));
-////                updateDataFile(book);
-////            });
-////
-////            authorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-////            authorColumn.setOnEditCommit(t -> {
-////                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
-////                String newAuthorNames = t.getNewValue();
-////                if (newAuthorNames != null || !newAuthorNames.equals("")){
-////                    String[] individualName = newAuthorNames.split(",");
-////                    List<Author> authorList = book.getAuthors();
-////                    for (int i =0; i< individualName.length;i++){
-////                        authorList.get(i).setFirstName(individualName[i].split("\\s")[0]);// set every author first name by first part of splitted author name from table
-////                        authorList.get(i).setLastName(individualName[i].split("\\s")[1]);
-////
-////                    }
-////                    book.setAuthors(authorList);
-////
-////                }
-////                updateDataFile(book);
-////            });
+//            authorColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//            authorColumn.setOnEditCommit(t -> {
+//                Book book = t.getTableView().getItems().get(t.getTablePosition().getRow());
+//                String newAuthorNames = t.getNewValue();
+//                if (newAuthorNames != null || !newAuthorNames.equals("")){
+//                    String[] individualName = newAuthorNames.split(",");
+//                    List<Author> authorList = book.getAuthors();
+//                    for (int i =0; i< individualName.length;i++){
+//                        authorList.get(i).setFirstName(individualName[i].split("\\s")[0]);// set every author first name by first part of splitted author name from table
+//                        authorList.get(i).setLastName(individualName[i].split("\\s")[1]);
+//
+//                    }
+//                    book.setAuthors(authorList);
+//
+//                }
+//                updateDataFile(book);
+//            });
 
 
 //            checkout.setOnAction((ActionEvent event1) -> {
@@ -421,27 +478,25 @@ public class SystemController {
 
     	// new book
         if (!isExistingBook) {
-	        List<Author> authors = new ArrayList<>();
-	        // FIXME: add authors parser here
 	        Book newbook = new Book(
 	                bookISBNInput.getText(), bookTitleInput.getText(),
 	                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
-	                authors
-	        );
+                    Arrays.asList(
+                            new Author(
+                                    new Person(afirstnameInput.getText(),alastNameInput.getText(),aphoneInput.getText()),
+                                    "credentials1",
+                            new Address(astateInput.getText(),acityInput.getText(),azipInput.getText(),astreeetInput.getText()))));
 
-	        //add new book data  storage file
-	        for (Book b: bookList) {
-	            if (b.getIsbn().equals(newbook.getIsbn())){
-
-	            }
-	        }
-	        for (int i=0;i< bookList.size();i++){
-	            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
-	//                bookList.get(i).;
-	            }
-	        }
 	        bookList.add(newbook);
         }
+
+        afirstnameInput.clear();
+        alastNameInput.clear();
+        aphoneInput.clear();
+        astreeetInput.clear();
+        acityInput.clear();
+        azipInput.clear();
+        astreeetInput.clear();
 
         FileUtils.writeObjectToFile(bookList);
 
@@ -471,13 +526,20 @@ public class SystemController {
 
     /**check authorisation*/
     public static boolean authorize(String authLevel){
-        if (authLevel.equalsIgnoreCase("ADMIN") ||
-                authLevel.equalsIgnoreCase("LIBRARIAN")||
-                authLevel.equalsIgnoreCase("BOTH")){
+        if (authLevel.equalsIgnoreCase(Role.ADMIN) ||
+                authLevel.equalsIgnoreCase(Role.LIBRARIAN)||
+                authLevel.equalsIgnoreCase(Role.BOTH)){
             return true;
         }
         return false;
     }
+
+
+    TableColumn<Member,String> memIdCol = new TableColumn<>("Member ID");
+    TableColumn<Member,String> bookIsbnCol = new TableColumn<>("ISBN");
+    TableColumn<Member,String> checkoutDateCol = new TableColumn<>("Checkout Date");
+    TableColumn<Member,String> dueDateCol = new TableColumn<>("Due Date");
+
 
     public void check(ActionEvent actionEvent) {
         Label memberIdLbl = new Label("Member ID");
@@ -505,33 +567,89 @@ public class SystemController {
         vBox.getChildren().addAll(checkInfo,hBox,hBox1,checkAvailable);
         vBox.setAlignment(Pos.CENTER);
         borderPane.setCenter(vBox);
+        if (!checkCheckoutTableCreated){
+            checkoutTable.getColumns().addAll(memIdCol,bookIsbnCol,checkoutDateCol,dueDateCol);
+            checkCheckoutTableCreated = true;
 
+        }
         checkAvailable.setOnAction(event -> {
-            System.out.println(" check clicked ");
             String member_id = idInput.getText();
             String isbn = isbnInput.getText();
 
             Member member= FileUtils.findMemberBId(member_id);
             Book book = FileUtils.findBookById(isbn);
 
-            if (member != null && book !=null && book.getCopiesNumber() >0){
 
+            if (member != null && book !=null && book.getCopiesNumber() >0){
                 checkInfo.setText("Book found");
                 LocalDate checkoutDate = LocalDate.now();
                 LocalDate dueDate = checkoutDate.plusDays(book.getMaxCheckoutLength());
                 Book book1 = new Book();
                 BookCopy selectedBookCopy = book1.getBookCopyFromBook(book);
-                selectedBookCopy.changeAvailability();
+                if(book.getNextAvailableCopy() == null){
+                    selectedBookCopy.changeAvailability();
+                }
                 CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(checkoutDate,dueDate,selectedBookCopy);
+                member.getCheckoutRecord().setCheckoutRecordEntry(checkoutRecordEntry);//set checkout record for respective member
                 System.out.println("checkout record entry !!!!!!!!!!!!!!");
                 System.out.println(checkoutRecordEntry);
 
+                //update the storage member file memeber object with this checout
+                List<Member> tempMemberList = new ArrayList<>();
+                tempMemberList.addAll(memberList);
+                for (Member m:tempMemberList) {
+                    if (m.getMemberid().equals(member.getMemberid())){
+                        memberList.remove(m);
+                    }
+                }
+                memberList.add(member);
+                membersWithCheckOuts.add(member);
+                FileUtils.writeObjectToFile(memberList);
+
+                memIdCol.setCellValueFactory(new PropertyValueFactory<>("memberid"));
+//                bookIsbnCol.setCellValueFactory(data -> new SimpleStringProperty(""));
+                checkoutDateCol.setCellValueFactory(data -> {
+                    System.out.println(String.valueOf(data.getValue().getCheckoutRecord().getCheckoutRecordEntry().getCheckoutDate()));
+                    return new SimpleStringProperty(String.valueOf(data.getValue().getCheckoutRecord().getCheckoutRecordEntry().getCheckoutDate()));
+                });
+                dueDateCol.setCellValueFactory(data -> {
+                    System.out.println("due data:"+String.valueOf(data.getValue().getCheckoutRecord().getCheckoutRecordEntry().getDueDate()));
+
+                    return new SimpleStringProperty(String.valueOf(data.getValue().getCheckoutRecord().getCheckoutRecordEntry().getDueDate()));
+                });
+
+
+                memberList = FileUtils.getObjectFromFile(Member.class);
+                ObservableList data = FXCollections.observableList(membersWithCheckOuts);
+                System.out.println("Checkout member data ..........");
+                for (Member m: membersWithCheckOuts) {
+                    System.out.println(m);
+                }
+                checkoutTable.getItems().addAll(data);
+                borderPane.setCenter(checkoutTable);
 
             }else {
                 checkInfo.setText("Sorry book not found with that information");
             }
         });
 
+
+    }
+
+
+    public void logout(ActionEvent actionEvent) {
+        User.userSessionRole = "";//remove the user session id
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../ui/MainScreen.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//                        Parent root = new ViewUtils().getRoot("../../ui/dashboard.fxml");
+        Stage currentStage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        currentStage.setScene(scene);
 
     }
 }
