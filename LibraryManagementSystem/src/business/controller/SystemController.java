@@ -502,9 +502,14 @@ public class SystemController {
                 checkInfo.setText("Book found");
                 LocalDate checkoutDate = LocalDate.now();
                 LocalDate dueDate = checkoutDate.plusDays(book.getMaxCheckoutLength());
-                BookCopy[] bookCopyList = book.getCopies();
-                bookCopyList[bookCopyList.length-1].changeAvailability();
-//                CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(LocalDate.now())
+                Book book1 = new Book();
+                BookCopy selectedBookCopy = book1.getBookCopyFromBook(book);
+                selectedBookCopy.changeAvailability();
+                CheckoutRecordEntry checkoutRecordEntry = new CheckoutRecordEntry(checkoutDate,dueDate,selectedBookCopy);
+                System.out.println("checkout record entry !!!!!!!!!!!!!!");
+                System.out.println(checkoutRecordEntry);
+
+
             }else {
                 checkInfo.setText("Sorry book not found with that information");
             }

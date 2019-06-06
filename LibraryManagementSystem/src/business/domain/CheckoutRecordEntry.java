@@ -37,4 +37,9 @@ public class CheckoutRecordEntry {
     public void setBookCopy(BookCopy bookCopy) {
         this.bookCopy = bookCopy;
     }
+
+    @Override
+    public String toString() {
+        return bookCopy.getCopyNum()+" "+bookCopy.getBook().getIsbn()+" "+ checkoutDate+" "+dueDate +" "+ bookCopy.isAvailable();
+    }
 }

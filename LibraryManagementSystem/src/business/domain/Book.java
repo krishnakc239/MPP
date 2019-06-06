@@ -11,6 +11,8 @@ final public class Book implements Serializable {
     private String isbn;
     private String title;
     private int maxCheckoutLength;
+
+    public Book(){}
     public Book(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
         this.isbn = isbn;
         this.title = title;
@@ -78,6 +80,17 @@ final public class Book implements Serializable {
         for(BookCopy c : copies) {
             if(copyNum == c.getCopyNum()) {
                 return c;
+            }
+        }
+        return null;
+    }
+
+    public BookCopy getBookCopyFromBook(Book book){
+        System.out.println("copies length == "+ book.getCopies().length);
+        BookCopy[] bookCopies = book.getCopies();
+        for (int i=0;i<= bookCopies.length;i++){
+            if (bookCopies[i].getBook().getIsbn().equals(book.isbn)){
+                return bookCopies[i];
             }
         }
         return null;
