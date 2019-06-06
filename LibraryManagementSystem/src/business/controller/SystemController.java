@@ -39,15 +39,14 @@ public class SystemController {
             +"/src/dataaccess/storage/";
 
     TextField memberIdInput,firstNameInput, lastNamenput, mobNumInput, streetInput, cityInput, zipInput,stateInput;
-<<<<<<< HEAD
-    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,authorsInput;
+
+    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput;
     public static List<Member> memberList = new ArrayList<>();
-=======
-    TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput;
+
+    //TextField bookISBNInput, bookTitleInput, bookMaxCheckoutLengthInput,copyNumInput;
     public ComboBox<String> authorsInput;
     TextField authorFirstNameInput, authorLastNameInput, authorPhoneInput, authorCredentialsInput, authorBioInput, authorAdrressInput;
-    public static List<LibraryMember> memberList = new ArrayList<>();
->>>>>>> support adding authors
+
     public static List<Book> bookList = new ArrayList<>();
     public static List<Author> authorList = new ArrayList<>();
 
@@ -319,8 +318,8 @@ public class SystemController {
 
             
             // Add, Delete box
-            HBox hBox1 = new HBox();
-            hBox1.getChildren().addAll(addButton,deleteButton);
+            //HBox hBox1 = new HBox();
+            //hBox1.getChildren().addAll(addButton,deleteButton);
 
             VBox vBox = new VBox();
             vBox.getChildren().addAll(bookTableView, hBox, hBoxAuthor, hBoxAuthor2, hBox1);
