@@ -407,25 +407,42 @@ public class SystemController {
 
     //Add button clicked
     public void addBookButtonClicked(){
-        List<Author> authors = new ArrayList<>();
-        Book newbook = new Book(
-                bookISBNInput.getText(), bookTitleInput.getText(),
-                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
-                authors
-        );
 
-        //add new book data  storage file
-        for (Book b: bookList) {
-            if (b.getIsbn().equals(newbook.getIsbn())){
-
+    	// check isbn for existing book
+    	// if yes, increase the book copy numbers
+    	boolean isExistingBook = false;
+        for (int i=0; i< bookList.size(); i++ ) {
+        	Book book = bookList.get(i);
+            if (book.getIsbn().equals(bookISBNInput.getText())) {
+            	book.addCopy();
+            	isExistingBook = true;
             }
         }
-        for (int i=0;i< bookList.size();i++){
-            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
-//                bookList.get(i).;
-            }
+
+    	// new book
+        if (!isExistingBook) {
+	        List<Author> authors = new ArrayList<>();
+	        // FIXME: add authors parser here
+	        Book newbook = new Book(
+	                bookISBNInput.getText(), bookTitleInput.getText(),
+	                Integer.parseInt(bookMaxCheckoutLengthInput.getText()),
+	                authors
+	        );
+
+	        //add new book data  storage file
+	        for (Book b: bookList) {
+	            if (b.getIsbn().equals(newbook.getIsbn())){
+
+	            }
+	        }
+	        for (int i=0;i< bookList.size();i++){
+	            if (bookList.get(i).getIsbn().equals(newbook.getIsbn())){
+	//                bookList.get(i).;
+	            }
+	        }
+	        bookList.add(newbook);
         }
-        bookList.add(newbook);
+
         FileUtils.writeObjectToFile(bookList);
 
         bookTableView.getItems().clear();
