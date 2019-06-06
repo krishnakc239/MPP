@@ -6,20 +6,38 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="729.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.controller.SystemController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.controller.SystemController">
    <top>
       <VBox prefHeight="81.0" prefWidth="729.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="52.0" prefWidth="729.0" style="-fx-background-color: #040425;">
                <children>
-                  <Label prefHeight="38.0" prefWidth="730.0" style="-fx-background-color: #040425;" text="Library Management System" textAlignment="RIGHT" textFill="#e8cece" textOverrun="CENTER_WORD_ELLIPSIS">
+                  <Label prefHeight="39.0" prefWidth="755.0" style="-fx-background-color: #040425;" text="Library Management System" textAlignment="RIGHT" textFill="#e8cece" textOverrun="CENTER_WORD_ELLIPSIS">
                      <font>
                         <Font name="System Bold Italic" size="31.0" />
                      </font>
                      <padding>
-                        <Insets left="100.0" />
+                        <Insets left="200.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="role" prefHeight="49.0" prefWidth="135.0">
+                     <textFill>
+                        <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                           <stops>
+                              <Stop color="#f8f3f3" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </textFill>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
                      </padding>
                   </Label>
                </children>
@@ -31,7 +49,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="librarian" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Librarian">
+                  <Button fx:id="librarian" mnemonicParsing="false" prefHeight="27.0" prefWidth="111.0" text="Members">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -39,12 +57,20 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" text="Log Out">
+                  <Button fx:id="checkout" mnemonicParsing="false" onAction="#check" text="Checkout">
                      <font>
                         <Font size="15.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="480.0" />
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" prefHeight="29.0" prefWidth="100.0" text="Log Out">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="530.0" />
                      </HBox.margin>
                   </Button>
                </children>

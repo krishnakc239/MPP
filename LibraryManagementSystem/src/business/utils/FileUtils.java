@@ -58,9 +58,9 @@ public class FileUtils implements Serializable{
 
 
     public static void loadLibraryMembers(){
-        memberList.add(new Member("1111",new Person("Krishna","KC","12345"),new Address("IOWA","Fairfield","52257","100 N")));
-        memberList.add(new Member("2222",new Person("Sujiv","Shrestha","45678"),new Address("DAKOTA","Fairfield","52257","100 N")));
-        memberList.add(new Member("3333",new Person("Thong","Huang","7890"),new Address("TEXAS","Fairfield","52257","100 N")));
+        memberList.add(new Member("1111",new Person("abc","KC","12345"),new Address("IOWA","Fairfield","52257","100 N")));
+        memberList.add(new Member("2222",new Person("def","Shrestha","45678"),new Address("DAKOTA","Fairfield","52257","100 N")));
+        memberList.add(new Member("3333",new Person("ghi","Huang","7890"),new Address("TEXAS","Fairfield","52257","100 N")));
         writeObjectToFile(memberList);
 
     }

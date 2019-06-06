@@ -50,8 +50,9 @@ public class LoginController {
                         Scene scene = new Scene(root);
                         currentStage.setScene(scene);
                         SystemController systemController = loader.getController();
+                        systemController.setController(systemController);
                         if (User.userSessionRole.equals(Role.ADMIN)){
-                            systemController.hideCheckoutButton();
+                            systemController.checkout.setVisible(false);
                         }
                     }
                     break;
